@@ -248,28 +248,52 @@ public class Window extends JPanel {
         stronyMocyGroup.add(r2);
         add(r1);
         add(r2);
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         zarejestrujRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 System.out.println(nazwaJediTextField.getText());
                 System.out.println(kolorMieczaCombo.getSelectedItem());
                 System.out.println(mocSlider.getValue());
                 System.out.println(stronyMocyGroup.getSelection().getActionCommand());
 
+                String nazwaJedi = nazwaJediTextField.getText();
+                String kolorMiecza = (String) kolorMieczaCombo.getSelectedItem();
+                int moc = mocSlider.getValue();
+                String stronaMocy = stronyMocyGroup.getSelection().getActionCommand();
+
                 try {
                     Statement statement = connection.createStatement();
-                    ResultSet result = statement.executeQuery("INSERT INTO jedi VALUES()");
-
-                    while (result.next()) {
-                        jedi.add(result.getString("nazwa"));
-                    }
+                    String nowyJedi = String.format("INSERT INTO rycerze_jedi(nazwa, kolor, moc, strona_mocy, id_zakon) VALUES('%s', '%s', %d, '%s', null);", nazwaJedi, kolorMiecza, moc, stronaMocy);
+                    statement.executeUpdate(nowyJedi);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
             }
         });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        zarejestrujLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println(nazwaZakonuJediTextField.getText());
+
+                String nazwaZakonuJedi = nazwaZakonuJediTextField.getText();
+
+                try {
+                    Statement statement = connection.createStatement();
+                    String nowyJedi = String.format("INSERT INTO zakon(nazwa_zakonu) VALUES('%s');", nazwaZakonuJedi);
+                    statement.executeUpdate(nowyJedi);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+
+
     }
 
     @Override
