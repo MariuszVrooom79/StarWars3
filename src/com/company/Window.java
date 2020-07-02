@@ -184,7 +184,7 @@ public class Window extends JPanel {
         jediPath.setEditable(false);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
         buttonEksRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
