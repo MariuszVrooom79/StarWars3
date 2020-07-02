@@ -11,9 +11,9 @@ public class Main {
 
         try {
             connection = connectToDatabase();
-            System.out.println("connected to DB");
+            System.out.println("połączono z bazą");
         } catch (SQLException e) {
-            System.out.println("Błąd połączenia z bazą danych");
+            System.out.println("Weź głęboki oddech i pomyśl co jest nie tak");
             return;
         }
 

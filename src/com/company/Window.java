@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Window extends JPanel {
 
@@ -33,7 +35,6 @@ public class Window extends JPanel {
         jediLabel.setBounds(570, 10, 100, 20);
         add(jediLabel);
 ///////////////////////////////////////////////////////////////////////////////////
-
         List<String> zakonJedi = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -117,8 +118,12 @@ public class Window extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     FileWriter writer = new FileWriter(zakonJediPath.getText());
-                    for (String s : zakonJedi) {
-                        writer.write(s + "\n");
+                    for (String nazwaZakonu : zakonJedi) {
+                        String zaszyfrowanaNazwaZakonu = "";
+                        for (int i = 0; i < nazwaZakonu.length(); i++) {
+                            zaszyfrowanaNazwaZakonu = zaszyfrowanaNazwaZakonu + (Character.toString(nazwaZakonu.charAt(i) + 3));
+                        }
+                        writer.write(zaszyfrowanaNazwaZakonu + "\n");
                     }
                     writer.close();
                 } catch (IOException ioException) {
@@ -127,6 +132,28 @@ public class Window extends JPanel {
                 }
             }
         });
+
+
+        buttonImpLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Scanner scanner = new Scanner(new File(zakonJediPath.getText()));
+                    zakonJedi.clear();
+                    while (scanner.hasNext()) {
+                        String nazwaJedi = scanner.nextLine();
+                        String odszyfrowanaNazwaZakonu = "";
+                        for (int i = 0; i < nazwaJedi.length(); i++) {
+                            odszyfrowanaNazwaZakonu = odszyfrowanaNazwaZakonu + Character.toString(nazwaJedi.charAt(i) - 3);
+                        }
+                        jedi.add(odszyfrowanaNazwaZakonu);
+                    }
+                } catch (FileNotFoundException fileNotFoundException) {
+                    System.out.println("Nie znaleziono pliku");
+                }
+            }
+        });
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         zakonJediPath.addMouseListener(new MouseAdapter() {
             @Override
@@ -156,13 +183,19 @@ public class Window extends JPanel {
         jediPath.setBounds(510, 510, 250, 30);
         jediPath.setEditable(false);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         buttonEksRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     FileWriter writer = new FileWriter(jediPath.getText());
-                    for (String s : jedi) {
-                        writer.write(s + "\n");
+                    for (String nazwaJedi : jedi) {
+                        String zaszyfrowanaNazwaJedi = "";
+                        for (int i = 0; i < nazwaJedi.length(); i++) {
+                            zaszyfrowanaNazwaJedi = zaszyfrowanaNazwaJedi + (Character.toString(nazwaJedi.charAt(i) + 3));
+                        }
+                        writer.write(zaszyfrowanaNazwaJedi + "\n");
                     }
                     writer.close();
                 } catch (IOException ioException) {
@@ -172,6 +205,27 @@ public class Window extends JPanel {
             }
         });
 
+        buttonImpRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Scanner scanner = new Scanner(new File(jediPath.getText()));
+                    jedi.clear();
+                    while (scanner.hasNext()) {
+                        String nazwaJedi = scanner.nextLine();
+                        String odszyfrowanaNazwaJedi = "";
+                        for (int i = 0; i < nazwaJedi.length(); i++) {
+                            odszyfrowanaNazwaJedi = odszyfrowanaNazwaJedi + Character.toString(nazwaJedi.charAt(i) - 3);
+                        }
+                        jedi.add(odszyfrowanaNazwaJedi);
+                    }
+                } catch (FileNotFoundException fileNotFoundException) {
+                    System.out.println("Nie znaleziono pliku");
+                }
+            }
+        });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
         jediPath.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -201,9 +255,9 @@ public class Window extends JPanel {
         add(zarejestrujRight);
 
 
-        JButton wyczyscRigt = new JButton("wyczysc");
-        wyczyscRigt.setBounds(660, 550, 100, 30);
-        add(wyczyscRigt);
+        JButton wyczyscRight = new JButton("wyczysc");
+        wyczyscRight.setBounds(660, 550, 100, 30);
+        add(wyczyscRight);
 
         JLabel kolorMiecza = new JLabel("kolor miecza:");
         kolorMiecza.setFont(new Font("Arial UI", Font.PLAIN, 15));
@@ -253,10 +307,7 @@ public class Window extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println(nazwaJediTextField.getText());
-                System.out.println(kolorMieczaCombo.getSelectedItem());
-                System.out.println(mocSlider.getValue());
-                System.out.println(stronyMocyGroup.getSelection().getActionCommand());
+                System.out.println("Zarejestrowano nowego Jedi w bazie");
 
                 String nazwaJedi = nazwaJediTextField.getText();
                 String kolorMiecza = (String) kolorMieczaCombo.getSelectedItem();
@@ -272,13 +323,23 @@ public class Window extends JPanel {
                 }
             }
         });
+
+        wyczyscRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nazwaJediTextField.setText("");
+                kolorMieczaCombo.setSelectedIndex(0);
+                mocSlider.setValue(500);
+                stronyMocyGroup.clearSelection();
+            }
+        });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         zarejestrujLeft.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println(nazwaZakonuJediTextField.getText());
+                System.out.println("Zarejestrowno nowy Zakon w bazie");
 
                 String nazwaZakonuJedi = nazwaZakonuJediTextField.getText();
 
@@ -292,6 +353,12 @@ public class Window extends JPanel {
             }
         });
 
+        wyczyscLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nazwaZakonuJediTextField.setText("");
+            }
+        });
 
 
     }
