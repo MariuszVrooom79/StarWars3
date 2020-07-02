@@ -246,7 +246,7 @@ public class Window extends JPanel {
         zarejestrujLeft.setBounds(130, 550, 100, 30);
         add(zarejestrujLeft);
 
-        JButton wyczyscLeft = new JButton("wyczysc");
+        JButton wyczyscLeft = new JButton("wyczysć");
         wyczyscLeft.setBounds(270, 550, 100, 30);
         add(wyczyscLeft);
 
@@ -255,7 +255,7 @@ public class Window extends JPanel {
         add(zarejestrujRight);
 
 
-        JButton wyczyscRight = new JButton("wyczysc");
+        JButton wyczyscRight = new JButton("wyczysć");
         wyczyscRight.setBounds(660, 550, 100, 30);
         add(wyczyscRight);
 
